@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ISAAC BARRÓN — AI Engineer · Data Intelligence</title>
+  <meta name="description" content="Isaac Barrón — Data Scientist, AI Engineer, Technical Consultant. Specializing in ML, automation, and business intelligence." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========== RESET & BASE ========== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-base: #0a0a0a;
+      --surface: #111111;
+      --text-primary: #e8e8e8;
+      --text-muted: #5a5a5a;
+      --accent-green: #00ff88;
+      --accent-red: #ff3333;
+      --accent-white: #ffffff;
+      --border: rgba(255, 255, 255, 0.08);
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+      --font-display: 'Space Grotesk', sans-serif;
+    }
+
+    html {
+      scroll-behavior: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+
+    /* ========== SCROLLBAR ========== */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-base);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--text-muted);
+      border-radius: 2px;
+    }
+
+    /* ========== BOOT SEQUENCE ========== */
+    #boot-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg-base);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10vw;
+      overflow: hidden;
+    }
+
+    .boot-line {
+      font-family: var(--font-mono);
+      font-size: clamp(11px, 1.4vw, 15px);
+      color: var(--accent-green);
+      margin-bottom: 6px;
+      white-space: nowrap;
+      min-height: 1.6em;
+      letter-spacing: 0.5px;
+    }
+
+    .boot-line.status-ok {
+      color: var(--accent-green);
+    }
+
+    .boot-line.status-warn {
+      color: var(--accent-red);
+    }
+
+    .boot-line.status-info {
+      color: var(--text-muted);
+    }
+
+    .boot-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.1em;
+      background: var(--accent-green);
+      vertical-align: text-bottom;
+      animation: blink-cursor 0.7s step-end infinite;
+    }
+
+    @keyframes blink-cursor {
+      50% { opacity: 0; }
+    }
+
+    .boot-counter {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 20px;
+    }
+
+    .boot-counter span {
+      color: var(--accent-green);
+      font-weight: 700;
+    }
+
+    .boot-coords {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      letter-spacing: 1px;
+    }
+
+    .boot-access {
+      font-size: clamp(18px, 3vw, 32px);
+      color: var(--accent-green);
+      font-weight: 700;
+      margin-top: 30px;
+      letter-spacing: 4px;
+      font-family: var(--font-display);
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--accent-white);
+      letter-spacing: 2px;
+    }
+
+    .nav-logo .accent {
+      color: var(--accent-green);
+    }
+
+    .nav-status {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--accent-green);
+    }
+
+    .nav-links a:focus-visible {
+      outline: 1px solid var(--accent-green);
+      outline-offset: 4px;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 6px var(--accent-green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--accent-green); }
+      50% { opacity: 0.5; box-shadow: 0 0 12px var(--accent-green); }
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    main {
+      position: relative;
+    }
+
+    /* ========== HERO ========== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .hero-signal {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-signal .bar {
+      width: 3px;
+      height: 12px;
+      background: var(--accent-green);
+      display: inline-block;
+    }
+
+    .hero-signal .bar:nth-child(2) { height: 16px; }
+    .hero-signal .bar:nth-child(3) { height: 20px; }
+    .hero-signal .bar:nth-child(4) { height: 14px; }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 10vw, 140px);
+      font-weight: 700;
+      color: var(--accent-white);
+      line-height: 0.95;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .hero-name .glitch-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-mono);
+      font-size: clamp(13px, 1.5vw, 16px);
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-meta-item .label {
+      color: var(--text-muted);
+    }
+
+    .hero-meta-item .value {
+      color: var(--accent-green);
+    }
+
+    .hero-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border: 1px solid var(--accent-green);
+      border-radius: 2px;
+      font-size: 11px;
+      color: var(--accent-green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 40px;
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: var(--text-muted);
+    }
+
+    /* ========== SECTION COMMON ========== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 60px;
+      padding: 0 40px;
+    }
+
+    .section-number {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-green);
+      letter-spacing: 2px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--accent-white);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ========== MARQUEE ========== */
+    .marquee-wrap {
+      overflow: hidden;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 60px;
+      white-space: nowrap;
+      will-change: transform;
+    }
+
+    .marquee-text {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .marquee-text .sep {
+      color: var(--accent-green);
+      margin: 0 20px;
+    }
+
+    /* ========== MISSION ARCHIVE ========== */
+    #missions {
+      padding: 120px 0 80px;
+      position: relative;
+    }
+
+    .missions-slider-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .missions-slider {
+      display: flex;
+      gap: 24px;
+      padding: 0 40px 40px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .missions-slider::-webkit-scrollbar {
+      display: none;
+    }
+
+    .case-card {
+      flex: 0 0 clamp(300px, 30vw, 420px);
+      scroll-snap-align: start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .case-card:hover,
+    .case-card:focus-within {
+      border-color: rgba(0, 255, 136, 0.2);
+    }
+
+    .case-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent-red);
+      opacity: 0.6;
+    }
+
+    .case-number {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-red);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .case-name {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 700;
+      color: var(--accent-white);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .case-type {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+    }
+
+    .case-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .case-tag {
+      font-size: 10px;
+      color: var(--accent-green);
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: 1px;
+      text-transform: uppercase;
+    }
+
+    .case-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-primary);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .case-btn:hover,
+    .case-btn:focus-visible {
+      color: var(--accent-green);
+      border-color: var(--accent-green);
+    }
+
+    .case-btn:focus-visible {
+      outline: 1px solid var(--accent-green);
+      outline-offset: 4px;
+    }
+
+    .case-btn .arrow {
+      transition: transform 0.3s;
+    }
+
+    .case-btn:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    .case-id-watermark {
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      font-family: var(--font-display);
+      font-size: 100px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.02);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .missions-scroll-hint {
+      padding: 20px 40px 0;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ========== AGENT PROFILE ========== */
+    #profile {
+      padding: 120px 40px;
+      position: relative;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1200px;
+    }
+
+    .profile-dossier {
+      position: relative;
+    }
+
+    .dossier-stamp {
+      font-family: var(--font-display);
+      font-size: 11px;
+      color: var(--accent-red);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border: 1px solid var(--accent-red);
+      display: inline-block;
+      padding: 4px 12px;
+      margin-bottom: 30px;
+      transform: rotate(-2deg);
+    }
+
+    .profile-bio {
+      font-size: 14px;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 520px;
+    }
+
+    .profile-bio .highlight {
+      color: var(--accent-green);
+    }
+
+    .profile-data {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .data-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      font-size: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-label {
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      min-width: 140px;
+      flex-shrink: 0;
+    }
+
+    .data-value {
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
+    }
+
+    .data-value.green {
+      color: var(--accent-green);
+    }
+
+    .profile-right {
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+    }
+
+    .profile-section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-green);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .profile-section-label::before {
+      content: '//';
+      color: var(--text-muted);
+    }
+
+    .academic-entry {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .academic-institution {
+      font-size: 13px;
+      color: var(--accent-white);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .academic-detail {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .skills-category-title {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .skills-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      font-size: 11px;
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 1px;
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    /* ========== SECURE CHANNEL ========== */
+    #contact {
+      padding: 120px 40px 80px;
+      position: relative;
+    }
+
+    .contact-inner {
+      max-width: 800px;
+    }
+
+    .contact-overline {
+      font-size: 11px;
+      color: var(--accent-green);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .contact-heading {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 700;
+      color: var(--accent-white);
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+
+    .contact-copy {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 560px;
+      margin-bottom: 50px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-primary);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 14px 24px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: border-color 0.3s, color 0.3s, background 0.3s;
+    }
+
+    .contact-link:hover,
+    .contact-link:focus-visible {
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+      background: rgba(0, 255, 136, 0.04);
+    }
+
+    .contact-link:focus-visible {
+      outline: 1px solid var(--accent-green);
+      outline-offset: 4px;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      padding: 40px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+
+      nav {
+        padding: 16px 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      #hero {
+        padding: 100px 20px 80px;
+      }
+
+      .section-header {
+        padding: 0 20px;
+      }
+
+      .missions-slider {
+        padding: 0 20px 40px;
+      }
+
+      #profile {
+        padding: 80px 20px;
+      }
+
+      #contact {
+        padding: 80px 20px;
+      }
+
+      footer {
+        padding: 30px 20px;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+
+      .hero-meta {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .missions-scroll-hint {
+        padding: 20px 20px 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .case-card {
+        flex: 0 0 85vw;
+      }
+
+      #boot-screen {
+        padding: 8vw;
+      }
+
+      .data-row {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .data-label {
+        min-width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== BOOT SEQUENCE ==================== -->
+  <div id="boot-screen" aria-live="polite" role="status">
+    <div class="boot-line" id="boot-line-1"></div>
+    <div class="boot-line" id="boot-line-2"></div>
+    <div class="boot-line" id="boot-line-3"></div>
+    <div class="boot-line" id="boot-line-4"></div>
+    <div class="boot-line" id="boot-line-5"></div>
+    <div class="boot-counter">DATASETS_ANALYZED: <span id="boot-counter-num">0</span></div>
+    <div class="boot-coords">LAT: 19.4326 N &nbsp;/&nbsp; LON: 99.1332 W &nbsp;// MEXICO_CITY_MX</div>
+    <div class="boot-access" id="boot-access"></div>
+  </div>
+
+  <!-- ==================== NAV ==================== -->
+  <nav aria-label="Main navigation">
+    <div class="nav-logo">INFERYX<span class="accent">.</span></div>
+    <ul class="nav-links">
+      <li><a href="#hero">HOME</a></li>
+      <li><a href="#missions">CASE FILES</a></li>
+      <li><a href="#profile">AGENT FILE</a></li>
+      <li><a href="#contact">SECURE LINE</a></li>
+    </ul>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      <span>SYSTEM_ONLINE</span>
+    </div>
+  </nav>
+
+  <!-- ==================== MAIN ==================== -->
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section id="hero" aria-label="Hero introduction">
+      <div class="hero-top-bar">
+        <div class="hero-coords">LAT: 19.4326 N / LON: 99.1332 W</div>
+        <div class="hero-signal">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span>SIGNAL_STRONG</span>
+        </div>
+      </div>
+
+      <h1 class="hero-name" id="hero-name">
+        ISAAC<br />BARRÓN
+      </h1>
+
+      <p class="hero-subtitle">
+        AI Engineer<span style="color:var(--accent-green)"> · </span>Data Intelligence<span style="color:var(--accent-green)"> · </span>Inferyx Analytics
+      </p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="label">CLASS:</span>
+          <span class="value">AI_ENGINEER</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">XP_LEVEL:</span>
+          <span class="value">TEC_DE_MONTERREY</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">MODEL_ACCURACY:</span>
+          <span class="value" id="hero-accuracy">97.3%</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">DATASETS:</span>
+          <span class="value" id="hero-datasets">0</span>
+        </div>
+      </div>
+
+      <div class="hero-status-badge">
+        <span class="status-dot"></span>
+        AVAILABLE FOR MISSIONS
+      </div>
+
+      <div class="hero-scroll-hint">
+        <span class="scroll-line"></span>
+        SCROLL TO PROCEED
+      </div>
+    </section>
+
+    <!-- ===== MARQUEE ===== -->
+    <div class="marquee-wrap" aria-hidden="true">
+      <div class="marquee-track" id="marquee-track">
+        <span class="marquee-text">DATA INTELLIGENCE <span class="sep">//</span> INFERYX ANALYTICS <span class="sep">//</span> MACHINE LEARNING <span class="sep">//</span> NEURAL PIPELINES <span class="sep">//</span> PREDICTIVE SYSTEMS <span class="sep">//</span> AUTOMATION PROTOCOLS</span>
+        <span class="marquee-text">DATA INTELLIGENCE <span class="sep">//</span> INFERYX ANALYTICS <span class="sep">//</span> MACHINE LEARNING <span class="sep">//</span> NEURAL PIPELINES <span class="sep">//</span> PREDICTIVE SYSTEMS <span class="sep">//</span> AUTOMATION PROTOCOLS</span>
+        <span class="marquee-text">DATA INTELLIGENCE <span class="sep">//</span> INFERYX ANALYTICS <span class="sep">//</span> MACHINE LEARNING <span class="sep">//</span> NEURAL PIPELINES <span class="sep">//</span> PREDICTIVE SYSTEMS <span class="sep">//</span> AUTOMATION PROTOCOLS</span>
+      </div>
+    </div>
+
+    <!-- ===== MISSION ARCHIVE ===== -->
+    <section id="missions" aria-label="Mission archive - Case files">
+      <div class="section-header">
+        <span class="section-number">[ 002 ]</span>
+        <h2 class="section-title">CASE FILES</h2>
+        <span class="section-line"></span>
+        <span class="section-number">MISSION_ARCHIVE</span>
+      </div>
+
+      <div class="missions-slider-wrap">
+        <div class="missions-slider" role="list">
+
+          <!-- CASE 01 -->
+          <article class="case-card" role="listitem">
+            <div class="case-number">CASE #IB-01</div>
+            <h3 class="case-name">CLINIC INTEL</h3>
+            <p class="case-type">Healthcare AI Integration — n8n + Medilink. Real-time clinical data automation with intelligent routing and patient flow optimization.</p>
+            <div class="case-tags">
+              <span class="case-tag">AUTOMATION</span>
+              <span class="case-tag">HEALTHCARE</span>
+              <span class="case-tag">n8n</span>
+            </div>
+            <button class="case-btn" aria-label="Initiate analysis for Clinic Intel case">
+              INITIATE ANALYSIS <span class="arrow">→</span>
+            </button>
+            <div class="case-id-watermark">01</div>
+          </article>
+
+          <!-- CASE 02 -->
+          <article class="case-card" role="listitem">
+            <div class="case-number">CASE #IB-02</div>
+            <h3 class="case-name">SIGMA OPS</h3>
+            <p class="case-type">Business Intelligence Dashboard — Power BI. Executive-grade analytics for real-time corporate decision-making and KPI monitoring.</p>
+            <div class="case-tags">
+              <span class="case-tag">BI</span>
+              <span class="case-tag">POWER BI</span>
+              <span class="case-tag">KPIs</span>
+            </div>
+            <button class="case-btn" aria-label="Initiate analysis for Sigma Ops case">
+              INITIATE ANALYSIS <span class="arrow">→</span>
+            </button>
+            <div class="case-id-watermark">02</div>
+          </article>
+
+          <!-- CASE 03 -->
+          <article class="case-card" role="listitem">
+            <div class="case-number">CASE #IB-03</div>
+            <h3 class="case-name">ATTRITION PROTOCOL</h3>
+            <p class="case-type">Employee Survival Analysis — Python · HR Analytics. Predictive resignation risk model with SHAP-based explainability engine.</p>
+            <div class="case-tags">
+              <span class="case-tag">ML</span>
+              <span class="case-tag">SURVIVAL ANALYSIS</span>
+              <span class="case-tag">HR</span>
+            </div>
+            <button class="case-btn" aria-label="Initiate analysis for Attrition Protocol case">
+              INITIATE ANALYSIS <span class="arrow">→</span>
+            </button>
+            <div class="case-id-watermark">03</div>
+          </article>
+
+          <!-- CASE 04 -->
+          <article class="case-card" role="listitem">
+            <div class="case-number">CASE #IB-04</div>
+            <h3 class="case-name">PLAYBOOK AI</h3>
+            <p class="case-type">Sports Prediction Engine — NFL / Soccer. Time series forecasting with ensemble models for high-stakes match outcome prediction.</p>
+            <div class="case-tags">
+              <span class="case-tag">TIME SERIES</span>
+              <span class="case-tag">SPORTS</span>
+              <span class="case-tag">PREDICTION</span>
+            </div>
+            <button class="case-btn" aria-label="Initiate analysis for Playbook AI case">
+              INITIATE ANALYSIS <span class="arrow">→</span>
+            </button>
+            <div class="case-id-watermark">04</div>
+          </article>
+
+          <!-- CASE 05 -->
+          <article class="case-card" role="listitem">
+            <div class="case-number">CASE #IB-05</div>
+            <h3 class="case-name">AGENT X</h3>
+            <p class="case-type">GPT-Powered Business Agents. Specialized AI agents deployed across healthcare, finance, and sales domains for autonomous operations.</p>
+            <div class="case-tags">
+              <span class="case-tag">AI AGENTS</span>
+              <span class="case-tag">GPT</span>
+              <span class="case-tag">AUTOMATION</span>
+            </div>
+            <button class="case-btn" aria-label="Initiate analysis for Agent X case">
+              INITIATE ANALYSIS <span class="arrow">→</span>
+            </button>
+            <div class="case-id-watermark">05</div>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="missions-scroll-hint">
+        <span class="scroll-line"></span>
+        DRAG OR SCROLL HORIZONTALLY TO NAVIGATE CASE FILES
+      </div>
+    </section>
+
+    <!-- ===== AGENT PROFILE ===== -->
+    <section id="profile" aria-label="Agent profile dossier">
+      <div class="section-header" style="padding-left:0;">
+        <span class="section-number">[ 003 ]</span>
+        <h2 class="section-title">AGENT FILE</h2>
+        <span class="section-line"></span>
+        <span class="section-number">CLASSIFIED_DOSSIER</span>
+      </div>
+
+      <div class="profile-grid">
+
+        <!-- LEFT: DOSSIER -->
+        <div class="profile-dossier">
+          <div class="dossier-stamp">CLASSIFIED</div>
+
+          <p class="profile-bio">
+            <span class="highlight">&gt;</span> No solo construyo modelos — diseño sistemas de inteligencia que revelan lo que los datos ocultan.
+            Especialista en ML, automatización y BI. Obsesionado con el cruce entre <span class="highlight">rigor técnico</span> e <span class="highlight">impacto real</span>.
+          </p>
+
+          <div class="profile-data">
+            <div class="data-row">
+              <span class="data-label">CODENAME</span>
+              <span class="data-value green">INFERYX</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">CLASS</span>
+              <span class="data-value">AI_ENGINEER · DATA_SCIENTIST</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">XP_LEVEL</span>
+              <span class="data-value">TEC_DE_MONTERREY</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">STATUS</span>
+              <span class="data-value green">ACTIVE — AVAILABLE FOR MISSIONS</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">LOCATION</span>
+              <span class="data-value">MEXICO CITY, MX — 19.4326°N 99.1332°W</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">CLEARANCE</span>
+              <span class="data-value green">LEVEL_5 — FULL_ACCESS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: ACADEMIC + SKILLS -->
+        <div class="profile-right">
+
+          <!-- ACADEMIC LOG -->
+          <div>
+            <div class="profile-section-label">ACADEMIC_LOG</div>
+            <div class="academic-entry">
+              <div class="academic-institution">[ TEC DE MONTERREY ]</div>
+              <div class="academic-detail">Business Intelligence Analyst — EN CURSO</div>
+            </div>
+            <div class="academic-entry">
+              <div class="academic-institution">[ ALTERYX ]</div>
+              <div class="academic-detail">Cofundador — 2024–PRESENTE</div>
+            </div>
+          </div>
+
+          <!-- TECH ARSENAL -->
+          <div>
+            <div class="profile-section-label">TECH_ARSENAL</div>
+            <div class="skills-grid">
+              <div>
+                <div class="skills-category-title">[ HARD_SKILLS ]</div>
+                <div class="skills-tags" id="hard-skills">
+                  <span class="skill-tag">Python</span>
+                  <span class="skill-tag">PyTorch</span>
+                  <span class="skill-tag">TensorFlow</span>
+                  <span class="skill-tag">SQL</span>
+                  <span class="skill-tag">R</span>
+                  <span class="skill-tag">Power BI</span>
+                  <span class="skill-tag">Streamlit</span>
+                  <span class="skill-tag">n8n</span>
+                  <span class="skill-tag">Docker</span>
+                  <span class="skill-tag">Scikit-learn</span>
+                  <span class="skill-tag">SHAP</span>
+                  <span class="skill-tag">LIME</span>
+                  <span class="skill-tag">MLflow</span>
+                  <span class="skill-tag">Google Cloud</span>
+                  <span class="skill-tag">Jupyter</span>
+                  <span class="skill-tag">VS Code</span>
+                  <span class="skill-tag">Git</span>
+                  <span class="skill-tag">FastAPI</span>
+                  <span class="skill-tag">Pandas</span>
+                  <span class="skill-tag">NumPy</span>
+                  <span class="skill-tag">Plotly</span>
+                </div>
+              </div>
+              <div>
+                <div class="skills-category-title">[ SOFT_SKILLS ]</div>
+                <div class="skills-tags" id="soft-skills">
+                  <span class="skill-tag">Systems Thinking</span>
+                  <span class="skill-tag">Pattern Recognition</span>
+                  <span class="skill-tag">Analytical Rigor</span>
+                  <span class="skill-tag">Autonomous Execution</span>
+                  <span class="skill-tag">Problem Decomposition</span>
+                  <span class="skill-tag">Client Communication</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== SECURE CHANNEL ===== -->
+    <section id="contact" aria-label="Contact information">
+      <div class="section-header" style="padding-left:0;">
+        <span class="section-number">[ 004 ]</span>
+        <h2 class="section-title">SECURE CHANNEL</h2>
+        <span class="section-line"></span>
+        <span class="section-number">ENCRYPTED_LINK</span>
+      </div>
+
+      <div class="contact-inner">
+        <div class="contact-overline">// TRANSMISSION OPEN</div>
+        <h3 class="contact-heading">What if we<br />worked together?</h3>
+        <p class="contact-copy">
+          Looking for an AI engineer who operates at the intersection of data science, ML engineering, and strategic consulting? Open a secure channel. Let's build intelligence systems that deliver real impact.
+        </p>
+
+        <div class="contact-links">
+          <a href="mailto:isaacbarron469@gmail.com" class="contact-link" aria-label="Send email to Isaac Barron">
+            [ EMAIL ] isaacbarron469@gmail.com
+          </a>
+          <a href="https://github.com/IsaacBrrP" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="Visit Isaac Barron's GitHub profile">
+            [ GITHUB ] IsaacBrrP
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="footer-left">
+      <span class="status-dot"></span>
+      <span>INFERYX ANALYTICS — ALL SYSTEMS OPERATIONAL</span>
+    </div>
+    <div>&copy; 2024-2026 ISAAC BARRÓN. ALL RIGHTS RESERVED.</div>
+  </footer>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+
+  <script>
+    /* ==========================================
+       GSAP SETUP — Register plugins first
+       ========================================== */
+    gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+    /* ==========================================
+       MAIN INITIALIZATION
+       ========================================== */
+    document.addEventListener('DOMContentLoaded', function () {
+
+      var ctx = gsap.context(function () {
+
+        /* ---- Reduced motion check ---- */
+        var mm = gsap.matchMedia();
+
+        mm.add('(prefers-reduced-motion: reduce)', function () {
+          /* Show everything immediately, no animations */
+          var boot = document.getElementById('boot-screen');
+          if (boot) {
+            boot.style.display = 'none';
+          }
+          document.body.style.overflow = '';
+          gsap.set('nav, #hero, #missions, #profile, #contact, footer', {
+            autoAlpha: 1,
+            y: 0,
+            clearProps: 'clipPath'
+          });
+          gsap.set('.case-card, .data-row, .skill-tag, .academic-entry', {
+            autoAlpha: 1,
+            y: 0
+          });
+          /* Kill all ScrollTriggers for reduced motion */
+          ScrollTrigger.getAll().forEach(function (t) { t.kill(); });
+        });
+
+        mm.add('(prefers-reduced-motion: no-preference)', function () {
+
+          /* ---- Set initial hidden states with gsap.set ---- */
+          gsap.set('nav', { autoAlpha: 0, y: -20 });
+          gsap.set('#hero .hero-top-bar', { autoAlpha: 0 });
+          gsap.set('#hero .hero-name', { autoAlpha: 0, y: 60, clipPath: 'inset(100% 0 0 0)' });
+          gsap.set('#hero .hero-subtitle', { autoAlpha: 0, y: 30 });
+          gsap.set('#hero .hero-meta', { autoAlpha: 0, y: 20 });
+          gsap.set('#hero .hero-status-badge', { autoAlpha: 0, y: 20 });
+          gsap.set('#hero .hero-scroll-hint', { autoAlpha: 0 });
+          gsap.set('.case-card', { autoAlpha: 0, y: 40 });
+          gsap.set('.data-row', { autoAlpha: 0, y: 20 });
+          gsap.set('.skill-tag', { autoAlpha: 0, y: 15, scale: 0.95 });
+          gsap.set('.academic-entry', { autoAlpha: 0, x: -20 });
+          gsap.set('.dossier-stamp', { autoAlpha: 0, scale: 0.8, rotation: -8 });
+          gsap.set('.profile-bio', { autoAlpha: 0, y: 20 });
+          gsap.set('#contact .contact-inner > *', { autoAlpha: 0, y: 30 });
+
+          /* ==========================================
+             1. BOOT SEQUENCE
+             ========================================== */
+          var bootLines = [
+            { id: 'boot-line-1', text: '> INITIALIZING BLACKWOOD SYSTEM...', cls: 'status-ok' },
+            { id: 'boot-line-2', text: '> LOADING_NEURAL_PIPELINE ████████ OK', cls: 'status-ok' },
+            { id: 'boot-line-3', text: '> DEPLOYING_ML_RUNTIME [v3.12.5]', cls: 'status-ok' },
+            { id: 'boot-line-4', text: '> AUTHENTICATING_AGENT: INFERYX', cls: 'status-info' },
+            { id: 'boot-line-5', text: '> SCANNING_THREAT_VECTORS... CLEAR', cls: 'status-ok' }
+          ];
+
+          /* Lock scroll during boot */
+          document.body.style.overflow = 'hidden';
+
+          var bootTl = gsap.timeline({
+            onComplete: function () {
+              revealSite();
+            }
+          });
+
+          /* Typewriter for each boot line */
+          bootLines.forEach(function (line, i) {
+            var el = document.getElementById(line.id);
+            if (!el) return;
+            el.classList.add(line.cls);
+            bootTl.to(el, {
+              duration: 0.6 + (line.text.length * 0.008),
+              text: { value: line.text, speed: 1 },
+              ease: 'none'
+            }, i * 0.5);
+          });
+
+          /* Counter animation during boot */
+          var counterObj = { val: 0 };
+          var counterEl = document.getElementById('boot-counter-num');
+          bootTl.to(counterObj, {
+            val: 14892,
+            duration: 2.5,
+            ease: 'power1.in',
+            onUpdate: function () {
+              if (counterEl) {
+                counterEl.textContent = Math.floor(counterObj.val).toLocaleString();
+              }
+            }
+          }, 0);
+
+          /* ACCESS GRANTED */
+          var accessEl = document.getElementById('boot-access');
+          bootTl.to(accessEl, {
+            duration: 0.4,
+            text: { value: '[ ACCESS_GRANTED ]' },
+            ease: 'none'
+          }, '+=0.2');
+
+          bootTl.to({}, { duration: 0.5 }); /* brief pause */
+
+          /* ==========================================
+             2. REVEAL SITE after boot
+             ========================================== */
+          function revealSite() {
+            var bootScreen = document.getElementById('boot-screen');
+
+            var revealTl = gsap.timeline({
+              onComplete: function () {
+                document.body.style.overflow = '';
+                setupScrollAnimations();
+                startMarquee();
+              }
+            });
+
+            /* Fade out boot screen */
+            revealTl.to(bootScreen, {
+              autoAlpha: 0,
+              duration: 0.6,
+              ease: 'power2.inOut',
+              onComplete: function () {
+                bootScreen.style.display = 'none';
+              }
+            });
+
+            /* Reveal nav */
+            revealTl.to('nav', {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.5,
+              ease: 'power2.out'
+            }, '-=0.2');
+
+            /* Hero reveal sequence */
+            revealTl.to('#hero .hero-top-bar', {
+              autoAlpha: 1,
+              duration: 0.4,
+              ease: 'power2.out'
+            }, '-=0.2');
+
+            revealTl.to('#hero .hero-name', {
+              autoAlpha: 1,
+              y: 0,
+              clipPath: 'inset(0% 0 0 0)',
+              duration: 0.8,
+              ease: 'power3.out'
+            }, '-=0.1');
+
+            revealTl.to('#hero .hero-subtitle', {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.5,
+              ease: 'power2.out'
+            }, '-=0.4');
+
+            revealTl.to('#hero .hero-meta', {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.5,
+              ease: 'power2.out'
+            }, '-=0.3');
+
+            /* Datasets counter in hero */
+            var heroDatasets = document.getElementById('hero-datasets');
+            var dsObj = { val: 0 };
+            revealTl.to(dsObj, {
+              val: 14892,
+              duration: 1.5,
+              ease: 'power1.out',
+              onUpdate: function () {
+                if (heroDatasets) {
+                  heroDatasets.textContent = Math.floor(dsObj.val).toLocaleString();
+                }
+              }
+            }, '-=0.5');
+
+            revealTl.to('#hero .hero-status-badge', {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.4,
+              ease: 'power2.out'
+            }, '-=1');
+
+            revealTl.to('#hero .hero-scroll-hint', {
+              autoAlpha: 1,
+              duration: 0.6,
+              ease: 'power2.out'
+            }, '-=0.5');
+          }
+
+          /* ==========================================
+             3. SCROLL-TRIGGERED ANIMATIONS
+             ========================================== */
+          function setupScrollAnimations() {
+
+            /* --- Case cards stagger on scroll --- */
+            ScrollTrigger.batch('.case-card', {
+              onEnter: function (batch) {
+                gsap.to(batch, {
+                  autoAlpha: 1,
+                  y: 0,
+                  duration: 0.6,
+                  ease: 'power2.out',
+                  stagger: 0.12
+                });
+              },
+              start: 'top 85%',
+              once: true
+            });
+
+            /* --- Dossier stamp --- */
+            ScrollTrigger.create({
+              trigger: '.dossier-stamp',
+              start: 'top 80%',
+              once: true,
+              onEnter: function () {
+                gsap.to('.dossier-stamp', {
+                  autoAlpha: 1,
+                  scale: 1,
+                  rotation: -2,
+                  duration: 0.5,
+                  ease: 'back.out(2)'
+                });
+              }
+            });
+
+            /* --- Profile bio --- */
+            ScrollTrigger.create({
+              trigger: '.profile-bio',
+              start: 'top 80%',
+              once: true,
+              onEnter: function () {
+                gsap.to('.profile-bio', {
+                  autoAlpha: 1,
+                  y: 0,
+                  duration: 0.6,
+                  ease: 'power2.out'
+                });
+              }
+            });
+
+            /* --- Data rows stagger --- */
+            ScrollTrigger.batch('.data-row', {
+              onEnter: function (batch) {
+                gsap.to(batch, {
+                  autoAlpha: 1,
+                  y: 0,
+                  duration: 0.5,
+                  ease: 'power2.out',
+                  stagger: 0.08
+                });
+              },
+              start: 'top 85%',
+              once: true
+            });
+
+            /* --- Academic entries --- */
+            ScrollTrigger.batch('.academic-entry', {
+              onEnter: function (batch) {
+                gsap.to(batch, {
+                  autoAlpha: 1,
+                  x: 0,
+                  duration: 0.5,
+                  ease: 'power2.out',
+                  stagger: 0.1
+                });
+              },
+              start: 'top 85%',
+              once: true
+            });
+
+            /* --- Skill tags stagger --- */
+            ScrollTrigger.batch('.skill-tag', {
+              onEnter: function (batch) {
+                gsap.to(batch, {
+                  autoAlpha: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.4,
+                  ease: 'power2.out',
+                  stagger: 0.03
+                });
+              },
+              start: 'top 90%',
+              once: true
+            });
+
+            /* --- Contact section --- */
+            ScrollTrigger.batch('#contact .contact-inner > *', {
+              onEnter: function (batch) {
+                gsap.to(batch, {
+                  autoAlpha: 1,
+                  y: 0,
+                  duration: 0.6,
+                  ease: 'power2.out',
+                  stagger: 0.1
+                });
+              },
+              start: 'top 85%',
+              once: true
+            });
+
+            /* --- Section headers reveal --- */
+            gsap.utils.toArray('.section-header').forEach(function (header) {
+              gsap.from(header, {
+                autoAlpha: 0,
+                y: 20,
+                duration: 0.6,
+                ease: 'power2.out',
+                scrollTrigger: {
+                  trigger: header,
+                  start: 'top 85%',
+                  once: true
+                }
+              });
+            });
+          }
+
+          /* ==========================================
+             4. MARQUEE ANIMATION
+             ========================================== */
+          function startMarquee() {
+            var track = document.getElementById('marquee-track');
+            if (!track) return;
+
+            var firstItem = track.querySelector('.marquee-text');
+            if (!firstItem) return;
+
+            gsap.to(track, {
+              x: function () {
+                return -(firstItem.offsetWidth + 60);
+              },
+              duration: 25,
+              ease: 'none',
+              repeat: -1,
+              modifiers: {
+                x: function (x) {
+                  var w = firstItem.offsetWidth + 60;
+                  return (parseFloat(x) % w) + 'px';
+                }
+              }
+            });
+          }
+
+          /* ==========================================
+             5. CARD HOVER EFFECTS
+             ========================================== */
+          document.querySelectorAll('.case-card').forEach(function (card) {
+            card.addEventListener('mouseenter', function () {
+              gsap.to(card, {
+                scale: 1.02,
+                borderColor: 'rgba(0, 255, 136, 0.25)',
+                duration: 0.3,
+                ease: 'power2.out'
+              });
+            });
+
+            card.addEventListener('mouseleave', function () {
+              gsap.to(card, {
+                scale: 1,
+                borderColor: 'rgba(255, 255, 255, 0.08)',
+                duration: 0.3,
+                ease: 'power2.out'
+              });
+            });
+          });
+
+          /* ==========================================
+             6. GLITCH EFFECT on hero name
+             ========================================== */
+          function triggerGlitch() {
+            var nameEl = document.getElementById('hero-name');
+            if (!nameEl) return;
+
+            var glitchTl = gsap.timeline();
+            glitchTl.to(nameEl, {
+              skewX: 2,
+              x: -3,
+              duration: 0.05,
+              ease: 'none'
+            })
+            .to(nameEl, {
+              skewX: -1,
+              x: 5,
+              color: 'var(--accent-red)',
+              duration: 0.05,
+              ease: 'none'
+            })
+            .to(nameEl, {
+              skewX: 0.5,
+              x: -2,
+              duration: 0.04,
+              ease: 'none'
+            })
+            .to(nameEl, {
+              skewX: 0,
+              x: 0,
+              color: 'var(--accent-white)',
+              duration: 0.05,
+              ease: 'none'
+            });
+          }
+
+          /* Random glitch every 4-8 seconds */
+          function scheduleGlitch() {
+            var delay = 4000 + Math.random() * 4000;
+            setTimeout(function () {
+              triggerGlitch();
+              scheduleGlitch();
+            }, delay);
+          }
+
+          /* Start glitch after boot completes */
+          setTimeout(scheduleGlitch, 4000);
+
+        }); /* end matchMedia no-preference */
+
+      }); /* end gsap.context */
+
+      /* ==========================================
+         SMOOTH SCROLL for nav links
+         ========================================== */
+      document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          var target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+    }); /* end DOMContentLoaded */
+  </script>
+
+</body>
+</html>
